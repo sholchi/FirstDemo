@@ -37,3 +37,60 @@ Closing Thoughts
 So next time you hear “out of the box,” remember that it is not a finished product. It is a foundation, but it still requires time, effort, and expertise to transform it into a system that truly supports your business.
 
 Thank you. I welcome any questions.
+
+
+
+---------
+
+Customisation vs Configuration in Dynamics 365: A Business Perspective
+
+Good [morning/afternoon], everyone. Today, I want to clarify an important concept that impacts how we design and implement Dynamics 365—the difference between configuration and customisation. This distinction is crucial in understanding the effort, cost, and maintenance required for different types of changes in our CRM system.
+
+1. What is Configuration?
+
+Configuration refers to modifying the system using built-in tools and settings without writing code. These changes are typically low-risk, easy to maintain, and supported by Microsoft updates.
+
+Examples of Configuration in Dynamics 365:
+	•	Adding or modifying fields on a form (e.g., making “Phone Number” required).
+	•	Creating business rules (e.g., automatically hiding a field based on another field’s value).
+	•	Adjusting security roles (e.g., ensuring only managers can approve deals).
+	•	Designing dashboards and reports using Power BI or built-in reporting tools.
+	•	Setting up workflows and Power Automate flows to automate tasks without coding.
+
+Business Impact: Configuration is often the preferred approach because it keeps the system flexible and easier to upgrade when new Microsoft features are released.
+
+2. What is Customisation?
+
+Customisation, on the other hand, involves extending Dynamics 365 beyond its standard capabilities using custom code or external integrations. This is required when business requirements go beyond what the system can achieve with configuration alone.
+
+Examples of Customisation in Dynamics 365:
+	•	Developing plugins to enforce complex business rules that cannot be handled by workflows.
+	•	Writing JavaScript to create advanced form validations and real-time UI changes.
+	•	Building custom integrations with third-party applications like SAP, Salesforce, or legacy databases.
+	•	Extending security models with advanced authentication or role-based access that goes beyond standard permissions.
+	•	Modifying the system UI or creating custom web resources to enhance user experience.
+
+Business Impact: Customisation requires development effort, testing, and ongoing maintenance, especially when Microsoft releases system updates. While it allows for deep business-specific functionality, it can also increase complexity and long-term costs if not managed properly.
+
+3. Which Approach is Best?
+	•	If the requirement can be met through configuration, that is always the first choice because it is low maintenance and upgrade-friendly.
+	•	If business needs go beyond what configuration allows, then customisation is required, but it should be carefully planned to avoid unnecessary complexity.
+
+Analogy: Buying vs Renovating a House
+
+Think of Dynamics 365 as a house:
+	•	Configuration is like rearranging furniture, painting walls, or adding new decor—it is quick, low effort, and does not require structural changes.
+	•	Customisation is like knocking down walls, adding a new floor, or rewiring the electrical system—it gives you more control, but it is complex, costly, and requires expertise.
+
+Final Thoughts
+
+When planning new CRM changes, we must always ask:
+	1.	Can this be done with configuration?
+	2.	If not, do we truly need customisation, or is there an alternative?
+	3.	How will this affect long-term system maintenance and upgrades?
+
+By making smart choices between configuration and customisation, we can build a CRM system that is both powerful and sustainable.
+
+Thank you, and I am happy to take any questions!
+
+
