@@ -1,0 +1,49 @@
+@echo off
+setlocal enabledelayedexpansion
+
+:: Set the configuration file path
+set CONFIG_PATH=C:\Training\Run PS for unpacking in VS\appsettings.json
+
+:: Read JSON values using PowerShell and store them in variables
+for /f "delims=" %%i in ('powershell -Command "(Get-Content '%CONFIG_PATH%' | ConvertFrom-Json).CRMConfig.CRM_URL"') do set CRM_URL=%%i
+for /f "delims=" %%i in ('powershell -Command "(Get-Content '%CONFIG_PATH%' | ConvertFrom-Json).CRMConfig.CLIENT_ID"') do set CLIENT_ID=%%i
+for /f "delims=" %%i in ('powershell -Command "(Get-Content '%CONFIG_PATH%' | ConvertFrom-Json).CRMConfig.CLIENT_SECRET"') do set CLIENT_SECRET=%%i
+for /f "delims=" %%i in ('powershell -Command "(Get-Content '%CONFIG_PATH%' | ConvertFrom-Json).CRMConfig.TENANT_ID"') do set TENANT_ID=%%i
+for /f "delims=" %%i in ('powershell -Command "(Get-Content '%CONFIG_PATH%' | ConvertFrom-Json).CRMConfig.SOLUTION_NAME"') do set SOLUTION_NAME=%%i
+for /f "delims=" %%i in ('powershell -Command "(Get-Content '%CONFIG_PATH%' | ConvertFrom-Json).CRMConfig.EXPORT_PATH"') do set EXPORT_PATH=%%i
+for /f "delims=" %%i in ('powershell -Command "(Get-Content '%CONFIG_PATH%' | ConvertFrom-Json).UnpackConfig.DEST_FOLDER"') do set DEST_FOLDER=%%i
+
+:: Validate required values
+if "%CLIENT_ID%"=="" echo CLIENT_ID is missing in appsettings.json & exit /b 1
+if "%CLIENT_SECRET%"=="" echo CLIENT_SECRET is missing in appsettings.json & exit /b 1
+if "%TENANT_ID%"=="" echo TENANT_ID is missing in appsettings.json & exit /b 1
+
+echo Authenticating with Power Platform CLI...
+
+:: Check if authentication exists
+pac auth list | find "No authentication profiles found" > nul
+if %errorlevel%==0 (
+    echo No authentication found. Logging into Dataverse...
+    pac auth create --environment "%CRM_URL%" --applicationId "%CLIENT_ID%" --clientSecret "%CLIENT_SECRET%" --tenant "%TENANT_ID%"
+)
+
+echo Exporting solution from Dataverse using Power Platform CLI...
+
+:: Export the solution
+pac solution export --path "%EXPORT_PATH%\%SOLUTION_NAME%.zip" --name "%SOLUTION_NAME%" --managed false
+
+:: Ensure the exported ZIP file exists before unpacking
+if not exist "%EXPORT_PATH%\%SOLUTION_NAME%.zip" (
+    echo Exported ZIP file not found: %EXPORT_PATH%\%SOLUTION_NAME%.zip
+    exit /b 1
+)
+
+:: Ensure destination folder exists or create it
+if not exist "%DEST_FOLDER%" mkdir "%DEST_FOLDER%"
+
+echo Unpacking solution from %EXPORT_PATH%\%SOLUTION_NAME%.zip to %DEST_FOLDER% using Power Platform CLI...
+
+:: Unpack the solution
+pac solution unpack --zipfile "%EXPORT_PATH%\%SOLUTION_NAME%.zip" --folder "%DEST_FOLDER%" --allowdelete
+
+echo Solution successfully exported and unpacked to %DEST_FOLDER%
